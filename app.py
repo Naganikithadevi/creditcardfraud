@@ -7,7 +7,7 @@ import streamlit as st
 from PIL import Image
 
 # load data
-data = pd.read_csv('creditcard.csv')
+data = pd.read_csv('C:\Users\Nikitha Mathi\Desktop\creditcard.csv')
 
 # separate legitimate and fraudulent transactions
 legit = data[data.Class == 0]
