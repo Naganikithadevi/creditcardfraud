@@ -1,68 +1,57 @@
 import numpy as np
 import pandas as pd
 from sklearn.model_selection import train_test_split
-from sklearn.linear_model import LogisticRegression
+from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import accuracy_score
 import streamlit as st
+from PIL import Image
 
-st.set_page_config(page_title="Credit Card Fraud Detection", layout="wide")
+# load data
+data = pd.read_csv('creditcard.csv')
 
-
-@st.cache(allow_output_mutation=True)
-def load_data(file):
-return pd.read_csv(file)
-
-
-def train_model(data):
 # separate legitimate and fraudulent transactions
 legit = data[data.Class == 0]
-    fraud = data[data.Class == 1]
+fraud = data[data.Class == 1]
 
 # undersample legitimate transactions to balance the classes
 legit_sample = legit.sample(n=len(fraud), random_state=2)
-    data = pd.concat([legit_sample, fraud], axis=0)
+data = pd.concat([legit_sample, fraud], axis=0)
 
 # split data into training and testing sets
 X = data.drop(columns="Class", axis=1)
-    y = data["Class"]
-    X_train, X_test, y_train, y_test = train_test_split(
-        X, y, test_size=0.2, stratify=y, random_state=2
-)
+y = data["Class"]
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, stratify=y, random_state=2)
 
-# train logistic regression model
-model = LogisticRegression()
-    model.fit(X_train, y_train)
+# train RandomForestClassifier model
+model= RandomForestClassifier(n_estimators=100, random_state=42)
+model.fit(X_train, y_train)
 
 # evaluate model performance
 train_acc = accuracy_score(model.predict(X_train), y_train)
-    test_acc = accuracy_score(model.predict(X_test), y_test)
+test_acc = accuracy_score(model.predict(X_test), y_test)
 
-return model, train_acc, test_acc
-
-
-def parse_transaction_string(transaction_string, feature_names):
-    values = transaction_string.split(",")
-    transaction = {}
-for i in range(len(values)):
-        transaction[feature_names[i]] = float(values[i])
-return transaction
+# create Streamlit app
+st.title("Credit Card Fraud Detection Model")
+st.write("Enter the following features to check if the transaction is legitimate or fraudulent:")
 
 
-st.title("Credit Card Fraud Detection")
+# create input fields for user to enter feature values
+input_df = st.text_input('Input All features')
+input_df_lst = input_df.split(',')
 
-file = st.file_uploader("Upload a CSV file containing credit card transaction data:")
-if file is not None:
-    data = load_data(file)
-    st.write("Data shape:", data.shape)
+# create a button to submit input and get prediction
+submit = st.button("Submit")
+image = Image.open('your_image_url.jpg')
+st.image(image)
 
-    model, train_acc, test_acc = train_model(data)
 
-    st.write("Training accuracy:", train_acc)
-    st.write("Test accuracy:", test_acc)
-
-# allow user to input transaction features and get a prediction
-st.subheader("Check a transaction")
-    feature_names = data.drop(columns="Class", axis=1).columns
-    transaction_string = st.text_input(
-"Enter transaction features (comma-separated)",
-"0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0")
+if submit:
+    # get input feature values
+    features = np.array(input_df_lst, dtype=np.float64)
+    # make prediction
+    prediction = model.predict(features.reshape(1,-1))
+    # display result
+    if prediction[0] == 0:
+        st.write(" Legitimate transaction")
+    else:
+        st.write(" fraud transaction")
