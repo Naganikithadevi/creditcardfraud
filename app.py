@@ -1,6 +1,6 @@
 import numpy as np
 import pandas as pd
-import scikit-learn
+import sklearn
 import streamlit as st
 from PIL import Image
 
