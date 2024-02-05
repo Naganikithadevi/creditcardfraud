@@ -21,25 +21,37 @@ submit = st.button("Submit")
 image = Image.open('your_image_url.jpg')
 st.image(image)
 
+import numpy as np
+import pandas as pd
+import streamlit as st
+from sklearn.model_selection import train_test_split
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.metrics import accuracy_score
+from joblib import dump, load
+from PIL import Image
+
+# Assuming X_train and y_train are defined before this point
+# Make sure to replace 'your_image_url.jpg' with the actual path or URL of your image
+
+
+st.title("Credit Card Fraud Detection Model")
+st.write("Enter the following features to check if the transaction is legitimate or fraudulent:")
+input_df = st.text_input('Input All features')
+
+submit = st.button("Submit")
+
+# Load the image
+image = Image.open('your_image_url.jpg')
+st.image(image)
+
 if submit:
     # Split the input string into a list of features
     input_df_lst = [float(x.strip()) for x in input_df.split(',')]
-
-    # Assuming the model was trained with 10 features (replace with your actual number of features)
-    num_features_used = 30
-
-    # Check if the number of features is the same as expected
-    if len(input_df_lst) != num_features_used:
-        st.error(f"Invalid number of features. Please provide exactly {num_features_used} features.")
+    features = np.array(input_df_lst).reshape(1, -1)
+    # Make prediction
+    prediction = model.predict(features)
+    if prediction[0] == 0:
+        st.write("Legitimate transaction")
     else:
-        # Reshape and convert to numpy array
-        features = np.array(input_df_lst).reshape(1, -1)
-
-        # Make prediction
-        prediction = model.predict(features)
-
-        if prediction[0] == 0:
-            st.write("Legitimate transaction")
-        else:
-            st.write("Fraudulent transaction")
+        st.write("Fraudulent transaction")
 
