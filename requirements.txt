@@ -1,3 +1,2 @@
--m pip install --upgrade pip
 sklearn
 joblib
