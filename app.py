@@ -11,26 +11,15 @@ from PIL import Image
 # create Streamlit app
 st.title("Credit Card Fraud Detection Model")
 st.write("Enter the following features to check if the transaction is legitimate or fraudulent:")
-
-
-
-
+input_df = st.text_input('Input All features')
+input_df_lst = input_df.split(',')
 
 submit = st.button("Submit")
-@st.cache(allow_output_mutation=True)
-def loading_model():
-    fp="./model.h5"
-    model_loader=load_model(fp)
-    return model_loader
-
-image = Image.open('your_image_url.jpg')
-st.image(image)
-
-
 if submit:
     # get input feature values
     features = np.array(input_df_lst, dtype=np.float64)
     # make prediction
+    model = load('creditcardmodel.joblib')
     prediction = model.predict(features.reshape(1,-1))
     # display result
     if prediction[0] == 0:
