@@ -4,7 +4,7 @@ import streamlit as st
 from sklearn.model_selection import train_test_split
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import accuracy_score
-from joblib import load
+from joblib import load,dump
 from PIL import Image
 
 model = RandomForestClassifier(n_estimators=100, random_state=42)
