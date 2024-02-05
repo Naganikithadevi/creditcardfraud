@@ -18,6 +18,7 @@ submit = st.button("Submit")
 if submit:
     # get input feature values
     features = np.array(input_df_lst, dtype=np.float64)
+    st.write(features)
     # make prediction
     model = load('creditcardmodel.joblib')
     st.write("model loaded")
