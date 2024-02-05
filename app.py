@@ -19,9 +19,10 @@ if submit:
     # get input feature values
     features = np.array(input_df_lst, dtype=np.float64)
     st.write(features)
+    l = features.reshape(1,-1)
     # make prediction
     model = load('creditcardmodel.joblib')
-    st.write("model loaded")
+    
     prediction = model.predict(features.reshape(1,-1))
     # display result
     if prediction[0] == 0:
