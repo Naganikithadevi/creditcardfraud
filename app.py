@@ -27,7 +27,7 @@ if submit:
     # make prediction
     model = load('creditcardmodel.joblib')
     
-    prediction = model.predict(features.reshape(1,-1))
+    prediction = model.predict(features_imputed.reshape(1,-1))
     # display result
     if prediction[0] == 0:
         st.write(" Legitimate transaction")
