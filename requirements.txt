@@ -1,3 +1,2 @@
 scikit-learn==0.23.2
-pip version== 23.3.2
 joblib
