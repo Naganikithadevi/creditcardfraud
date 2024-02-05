@@ -25,7 +25,8 @@ if submit:
     # Split the input string into a list of features
     input_df_lst = [float(x.strip()) for x in input_df.split(',')]
 
-   num_features_used = 30
+    # Assuming the model was trained with 10 features (replace with your actual number of features)
+    num_features_used = 30
 
     # Check if the number of features is the same as expected
     if len(input_df_lst) != num_features_used:
