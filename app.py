@@ -26,7 +26,7 @@ if submit:
     input_df_lst = [float(x.strip()) for x in input_df.split(',')]
 
     # Check if the number of features is the same as expected
-    if len(input_df_lst) != model.n_features_:
+    if len(input_df_lst) != model.n_features_in_:
         st.error("Invalid number of features. Please provide the correct number of features.")
     else:
         # Reshape and convert to numpy array
