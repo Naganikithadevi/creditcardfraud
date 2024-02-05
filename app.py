@@ -25,9 +25,7 @@ if submit:
     # Split the input string into a list of features
     input_df_lst = [float(x.strip()) for x in input_df.split(',')]
 
-    # Check if the number of features is the same as expected
-    if len(input_df_lst) != X_train.shape[1]:
-        st.error("Invalid number of features. Please provide the correct number of features.")
+    
     else:
         # Reshape and convert to numpy array
         features = np.array(input_df_lst).reshape(1, -1)
