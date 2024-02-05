@@ -7,7 +7,7 @@ from sklearn.metrics import accuracy_score
 from joblib import load,dump
 from PIL import Image
 
-dump(model,"creditcardmodel.joblib")
+model=load("creditcardmodel.joblib")
 
 
 
