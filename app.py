@@ -24,10 +24,19 @@ st.image(image)
 if submit:
     # Split the input string into a list of features
     input_df_lst = [float(x.strip()) for x in input_df.split(',')]
-    features = np.array(input_df_lst).reshape(1, -1)
-    prediction = model.predict(features)
-    if prediction[0] == 0:
-            st.write("Legitimate transaction")
+
+    # Check if the number of features is the same as expected
+    if len(input_df_lst) != model.n_features_:
+        st.error("Invalid number of features. Please provide the correct number of features.")
     else:
+        # Reshape and convert to numpy array
+        features = np.array(input_df_lst).reshape(1, -1)
+
+        # Make prediction
+        prediction = model.predict(features)
+
+        if prediction[0] == 0:
+            st.write("Legitimate transaction")
+        else:
             st.write("Fraudulent transaction")
-     
+
