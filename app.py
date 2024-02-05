@@ -8,7 +8,7 @@ from joblib import load
 from PIL import Image
 
 model = RandomForestClassifier(n_estimators=100, random_state=42)
-model.fit(X_train, y_train)
+
 dump(model, "creditcardmodel.joblib")
 
 st.title("Credit Card Fraud Detection Model")
