@@ -25,9 +25,11 @@ if submit:
     # Split the input string into a list of features
     input_df_lst = [float(x.strip()) for x in input_df.split(',')]
 
+   num_features_used = 30
+
     # Check if the number of features is the same as expected
-    if len(input_df_lst) != model.n_features_in_:
-        st.error("Invalid number of features. Please provide the correct number of features.")
+    if len(input_df_lst) != num_features_used:
+        st.error(f"Invalid number of features. Please provide exactly {num_features_used} features.")
     else:
         # Reshape and convert to numpy array
         features = np.array(input_df_lst).reshape(1, -1)
