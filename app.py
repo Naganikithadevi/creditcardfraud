@@ -5,29 +5,38 @@ from sklearn.model_selection import train_test_split
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import accuracy_score
 from joblib import load
-
-
 from PIL import Image
 
-# create Streamlit app
+model = RandomForestClassifier(n_estimators=100, random_state=42)
+model.fit(X_train, y_train)
+dump(model, "creditcardmodel.joblib")
+
 st.title("Credit Card Fraud Detection Model")
 st.write("Enter the following features to check if the transaction is legitimate or fraudulent:")
 input_df = st.text_input('Input All features')
-input_df_lst = input_df.split(',')
 
 submit = st.button("Submit")
+
+# Load the image
+image = Image.open('your_image_url.jpg')
+st.image(image)
+
 if submit:
-    # get input feature values
-    features = np.array(input_df_lst, dtype=np.float64)
-    st.write(features)
-    l = features.reshape(1,-1)
-    st.write(l)
-    # make prediction
-    model = load('creditcardmodel.joblib')
-    
-    prediction = model.predict(features.reshape(1,-1))
-    # display result
-    if prediction[0] == 0:
-        st.write(" Legitimate transaction")
+    # Split the input string into a list of features
+    input_df_lst = [float(x.strip()) for x in input_df.split(',')]
+
+    # Check if the number of features is the same as expected
+    if len(input_df_lst) != X_train.shape[1]:
+        st.error("Invalid number of features. Please provide the correct number of features.")
     else:
-        st.write(" fraud transaction")
+        # Reshape and convert to numpy array
+        features = np.array(input_df_lst).reshape(1, -1)
+
+        # Make prediction
+        prediction = model.predict(features)
+
+        if prediction[0] == 0:
+            st.write("Legitimate transaction")
+        else:
+            st.write("Fraudulent transaction")
+     
