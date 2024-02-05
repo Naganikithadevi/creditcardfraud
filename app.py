@@ -24,9 +24,7 @@ st.image(image)
 if submit:
     # Split the input string into a list of features
     input_df_lst = [float(x.strip()) for x in input_df.split(',')]
-
-    
-    else:
+else:
         # Reshape and convert to numpy array
         features = np.array(input_df_lst).reshape(1, -1)
 
