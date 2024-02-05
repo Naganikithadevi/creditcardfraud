@@ -5,6 +5,7 @@ from sklearn.model_selection import train_test_split
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import accuracy_score
 from joblib import load
+from sklearn.impute import SimpleImputer
 
 from PIL import Image
 
@@ -21,6 +22,8 @@ if submit:
     st.write(features)
     l = features.reshape(1,-1)
     st.write(l)
+    imputer=SimpleImputer(strategy='mean')
+    features_imputed=imputer.fit_transform(features)
     # make prediction
     model = load('creditcardmodel.joblib')
     
