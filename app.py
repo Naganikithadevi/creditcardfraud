@@ -13,11 +13,9 @@ st.title("Credit Card Fraud Detection Model")
 st.write("Enter the following features to check if the transaction is legitimate or fraudulent:")
 
 
-# create input fields for user to enter feature values
-input_df = st.text_input('Input All features')
-input_df_lst = input_df.split(',')
 
-# create a button to submit input and get prediction
+
+
 submit = st.button("Submit")
 @st.cache(allow_output_mutation=True)
 def loading_model():
